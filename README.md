@@ -7,6 +7,8 @@
 
 ## Usage
 
+PhoenixClient is intended for use with Phoenix version >= 0.13.0. This client is not backwards compatable with a phoenix server less than this version.
+
 ### Socket Connection
 
 ```
