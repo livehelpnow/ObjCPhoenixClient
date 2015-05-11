@@ -1,6 +1,6 @@
 # PhoenixClient
 
-[![CI Status](http://img.shields.io/travis/Justin Schneck/PhoenixClient.svg?style=flat)](https://travis-ci.org/Justin Schneck/PhoenixClient)
+[![CI Status](http://img.shields.io/travis/Justin Schneck/PhoenixClient.svg?style=flat)](https://travis-ci.org/livehelpnow/ObjCPhoenixClient)
 [![Version](https://img.shields.io/cocoapods/v/PhoenixClient.svg?style=flat)](http://cocoapods.org/pods/PhoenixClient)
 [![License](https://img.shields.io/cocoapods/l/PhoenixClient.svg?style=flat)](http://cocoapods.org/pods/PhoenixClient)
 [![Platform](https://img.shields.io/cocoapods/p/PhoenixClient.svg?style=flat)](http://cocoapods.org/pods/PhoenixClient)
