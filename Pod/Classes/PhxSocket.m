@@ -20,7 +20,6 @@ static int bufferFlushInterval = 0.5;
 @property (nonatomic, retain) SRWebSocket *socket;
 @property (nonatomic, retain) NSURL *URL;
 @property (nonatomic, assign) int heartbeatInterval;
-@property (nonatomic) SocketState socketState;
 
 @property (nonatomic, retain) NSMutableArray *channels;
 @property (nonatomic, retain) NSMutableArray *sendBuffer;
@@ -55,6 +54,7 @@ static int bufferFlushInterval = 0.5;
         self.closeCallbacks = [NSMutableArray new];
         self.errorCallbacks = [NSMutableArray new];
         self.messageCallbacks = [NSMutableArray new];
+        self.reconnectOnError = YES;
         
         [self resetBufferTimer];
         [self reconnect];
@@ -172,6 +172,8 @@ static int bufferFlushInterval = 0.5;
 
 - (void)onConnClose:(id)event {
     NSLog(@"PhxSocket Closed");
+    [self triggerChanError:event];
+    
     if (self.reconnectOnError) {
         if (self.reconnectTimer) {
             [self.reconnectTimer invalidate];
@@ -202,7 +204,7 @@ static int bufferFlushInterval = 0.5;
     if ([self.delegate respondsToSelector:@selector(phxSocketDidReceiveError:)]) {
         [self.delegate phxSocketDidReceiveError:error];
     }
-
+    [self onConnClose:error];
 }
 
 - (void)onConnMessage:(NSString*)rawMessage {

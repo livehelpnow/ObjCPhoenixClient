@@ -109,8 +109,10 @@
 }
 
 - (void)afterTimerFire:(NSTimer*)timer {
-    After callback = [timer userInfo];
-    callback();
+    if ([timer userInfo]) {
+        After callback = [timer userInfo];
+        callback();
+    }
 }
 
 - (void)matchReceive:(NSDictionary*)payload {

@@ -27,6 +27,7 @@
 @property (nonatomic, retain) PhxSocket* socket;
 @property (nonatomic, readonly) ChannelState state;
 @property (nonatomic, retain) NSString* topic;
+@property (nonatomic, retain) NSDictionary *params;
 
 - (id)initWithSocket:(PhxSocket*)socket
                topic:(NSString*)topic

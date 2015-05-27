@@ -8,17 +8,16 @@
 
 #import "PhxChannel.h"
 #import "PhxPush.h"
+#import "PhxPush_Private.h"
 #import "PhxSocket.h"
 #import "PhxSocket_Private.h"
 
 static int reconnectInterval = 5;
-static int bufferFlushInterval = 0.5;
 
 @interface PhxChannel ()
 
 @property (nonatomic, readwrite) ChannelState state;
 
-@property (nonatomic, retain) NSDictionary *params;
 @property (nonatomic, retain) NSMutableArray *bindings;
 @property (nonatomic, retain) NSMutableArray *pushBuffer;
 
@@ -97,11 +96,16 @@ static int bufferFlushInterval = 0.5;
 }
 
 - (void)rejoin {
+    if (self.rejoinTimer) {
+        [self.rejoinTimer invalidate];
+        self.rejoinTimer = nil;
+    }
     [self sendJoin];
 }
 
 - (void)sendJoin {
     self.state = ChannelJoining;
+    self.joinPush.payload = self.params;
     [self.joinPush send];
     for (PhxPush *push in self.pushBuffer) {
         [push send];
