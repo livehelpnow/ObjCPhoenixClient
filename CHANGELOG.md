@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.3.1
+* Updated ChannelDemo to use target 7.0
+
 ## v0.3.0
 * Decoupled init from connect. You must explicitally call connect.
 * connect now takes socket params.
