@@ -21,8 +21,8 @@
         NSArray *elements = [pair componentsSeparatedByString:@"="];
         if (elements.count == 2)
         {
-            NSString *key = elements[0];
-            NSString *value = elements[1];
+            NSString *key = [elements[0] stringValue];
+            NSString *value = [elements[1] stringValue];
             NSString *decodedKey = [key URLDecodedString];
             NSString *decodedValue = [value URLDecodedString];
             
@@ -44,7 +44,7 @@
     NSMutableArray *pairs = [NSMutableArray array];
     for (NSString *key in [self keyEnumerator])
     {
-        id value = [self objectForKey:key];
+        id value = [[self objectForKey:key] stringValue];
         NSString *escapedValue = [value URLEncodedString];
         [pairs addObject:[NSString stringWithFormat:@"%@=%@", key, escapedValue]];
     }

@@ -11,13 +11,14 @@ PhoenixClient is intended for use with Phoenix version >= 0.16.0. This client is
 
 ### Socket Connection
 
-```
-PhxSocket *socket = [[PhxSocket alloc] initWithURL:url params:@{@"user_id":1234} heartbeatInterval:20];
+```objective-c
+PhxSocket *socket = [[PhxSocket alloc] initWithURL:url heartbeatInterval:20];
+[socket connectWithParams:@{@"user_id":1234}]
 ```
 
 ### Socket Hooks
 
-```
+```objective-c
 [socket onClose:^(void) {
   NSLog(@"the connection dropped");
 }];
@@ -29,7 +30,7 @@ PhxSocket *socket = [[PhxSocket alloc] initWithURL:url params:@{@"user_id":1234}
 
 ### Channels
 
-```
+```objc
 PhxChannel *chan = [[PhxChannel alloc] initWithSocket:socket topic:@"rooms:123" params:@{@"token":roomToken}];
 [chan onEvent:@"new_msg" callback:^(id message) {
   NSLog(@"Got message %@", message);
@@ -38,7 +39,7 @@ PhxChannel *chan = [[PhxChannel alloc] initWithSocket:socket topic:@"rooms:123" 
 
 ### Channel Hooks
 
-```
+```objective-c
 [chan onClose:^(void) {
   NSLog(@"the channel has gone away gracefully");
 }];
@@ -50,7 +51,7 @@ PhxChannel *chan = [[PhxChannel alloc] initWithSocket:socket topic:@"rooms:123" 
 
 ### Joining Channels
 
-```
+```objective-c
 id join = [chan join];
 [join onReceive:@"ok" callback:^(id messages) {
   NSLog(@"catching up %@", messages);
@@ -65,7 +66,7 @@ id join = [chan join];
 
 ### Pushing Messages
 
-```
+```objective-c
 PhxPush* push = [chan pushEvent:@"new_msg" payload:@{@"Some Message"}];
 [push onReceive:@"ok" callback:^(id message) {
   NSLog(@"created message %@", message);
@@ -89,9 +90,12 @@ it, simply add the following line to your Podfile:
 pod "PhoenixClient"
 ```
 
-## Author
+## Example
+Included in the source is the ChannelDemo iOS app. to use this app you will need to run the phoenix_chat_example. You can check this app out from
 
-Justin Schneck, jschneck@mac.com
+https://github.com/chrismccord/phoenix_chat_example
+
+Follow the directions on the repo to launch the Phoenix app then launch the ChannelDemo in the Examples folder of this repository.
 
 ## License
 

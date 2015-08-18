@@ -43,18 +43,14 @@ static int bufferFlushInterval = 0.5;
 @implementation PhxSocket
 
 - (id)initWithURL:(NSURL*)url {
-    return [self initWithURL:url params:nil heartbeatInterval:0];
+    return [self initWithURL:url heartbeatInterval:0];
 }
 
-- (id)initWithURL:(NSURL*)url params:(NSDictionary*)params {
-    return [self initWithURL:url params:params heartbeatInterval:0];
-}
-
-- (id)initWithURL:(NSURL*)url params:(NSDictionary*)params heartbeatInterval:(int)interval {
+- (id)initWithURL:(NSURL*)url heartbeatInterval:(int)interval {
     self = [super init];
     if (self) {
         self.URL = url;
-        self.params = params;
+        self.params = nil;
         self.heartbeatInterval = interval;
         self.channels = [NSMutableArray new];
         self.sendBuffer = [NSMutableArray new];
@@ -65,14 +61,20 @@ static int bufferFlushInterval = 0.5;
         self.reconnectOnError = YES;
         
         [self resetBufferTimer];
-        [self reconnect];
+        //[self reconnect];
     }
     return self;
 }
 
 - (void)connect {
+    [self connectWithParams:nil];
+}
+
+- (void)connectWithParams:(NSDictionary*)params {
     NSURL *url;
+    self.params = params;
     if (self.params != nil) {
+        
         url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", [self.URL absoluteString], [self.params queryStringValue]]];
     } else {
         url = self.URL;
@@ -94,7 +96,7 @@ static int bufferFlushInterval = 0.5;
 
 - (void)reconnect {
     [self disconnect];
-    [self connect];
+    [self connectWithParams:self.params];
 }
 
 - (BOOL)isConnected {
