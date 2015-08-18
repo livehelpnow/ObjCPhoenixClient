@@ -25,7 +25,8 @@
 @property (nonatomic, readwrite) BOOL reconnectOnError;
 
 - (id)initWithURL:(NSURL*)url;
-- (id)initWithURL:(NSURL*)url heartbeatInterval:(int)interval;
+- (id)initWithURL:(NSURL*)url params:(NSDictionary*)params;
+- (id)initWithURL:(NSURL*)url params:(NSDictionary*)params heartbeatInterval:(int)interval;
 
 - (void)connect;
 - (void)disconnect;

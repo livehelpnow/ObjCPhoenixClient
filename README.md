@@ -7,12 +7,12 @@
 
 ## Usage
 
-PhoenixClient is intended for use with Phoenix version >= 0.13.0. This client is not backwards compatible with a phoenix server less than this version.
+PhoenixClient is intended for use with Phoenix version >= 0.16.0. This client is not backwards compatible with a phoenix server less than this version.
 
 ### Socket Connection
 
 ```
-PhxSocket *socket = [[PhxSocket alloc] initWithURL:url heartbeatInterval:20];
+PhxSocket *socket = [[PhxSocket alloc] initWithURL:url params:@{@"user_id":1234} heartbeatInterval:20];
 ```
 
 ### Socket Hooks

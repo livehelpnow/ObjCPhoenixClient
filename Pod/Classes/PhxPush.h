@@ -19,7 +19,7 @@
 
 - (void)send;
 
-- (PhxPush*)onReceive:(NSString*)status callback:(OnReceive)callback;
+- (PhxPush*)onReceive:(NSString*)status callback:(OnMessage)callback;
 - (PhxPush*)after:(int)ms callback:(After)callback;
 
 @end

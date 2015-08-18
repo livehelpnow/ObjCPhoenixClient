@@ -24,6 +24,6 @@ typedef enum {
 typedef void (^OnOpen)(void);
 typedef void (^OnClose)(id event);
 typedef void (^OnError)(id error);
-typedef void (^OnMessage)(NSString *topic, NSString *event, id payload);
-typedef void (^OnReceive)(id message);
+typedef void (^OnMessage)(id message);
+typedef void (^OnReceive)(id message, id ref);
 typedef void (^After)(void);

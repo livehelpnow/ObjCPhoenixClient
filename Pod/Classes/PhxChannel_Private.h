@@ -13,7 +13,7 @@
 @interface PhxChannel ()
 
 - (void)rejoin;
-- (void)triggerEvent:(NSString*)event message:(NSString*)message;
+- (void)triggerEvent:(NSString*)event message:(id)message ref:(id)ref;
 - (BOOL)isMemberOfTopic:(NSString*)topic;
 - (NSString*)replyEventName:(NSString*)ref;
 

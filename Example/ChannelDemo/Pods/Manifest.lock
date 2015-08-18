@@ -1,0 +1,17 @@
+PODS:
+  - PhoenixClient (0.1.0):
+    - SocketRocket (= 0.3.1-beta2)
+  - SocketRocket (0.3.1-beta2)
+
+DEPENDENCIES:
+  - PhoenixClient (from `../../`)
+
+EXTERNAL SOURCES:
+  PhoenixClient:
+    :path: "../../"
+
+SPEC CHECKSUMS:
+  PhoenixClient: a769f4a0103e87720f5b652185dd9a15079e9c28
+  SocketRocket: 7284ab9370a06c99aba92b2fe3a32aedd0f9a6fa
+
+COCOAPODS: 0.38.2

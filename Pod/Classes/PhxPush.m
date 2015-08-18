@@ -56,7 +56,7 @@
     self.receivedResp = nil;
     self.sent = NO;
     
-    [self.channel onEvent:self.refEvent callback:^(id message) {
+    [self.channel onEvent:self.refEvent callback:^(id message, id ref) {
         self.receivedResp = message;
         [self matchReceive:message];
         [self cancelRefEvent];
@@ -67,7 +67,7 @@
     [self.channel.socket push:@{@"topic":self.channel.topic, @"event": self.event, @"payload":self.payload, @"ref": ref}];
 }
 
-- (PhxPush*)onReceive:(NSString *)status callback:(OnReceive)callback {
+- (PhxPush*)onReceive:(NSString *)status callback:(OnMessage)callback {
     if (self.receivedResp && [[self.receivedResp valueForKey:@"status"] isEqualToString:status]) {
         callback(self.receivedResp);
     }
@@ -121,7 +121,7 @@
     }];
     NSArray *recHooks = [self.recHooks filteredArrayUsingPredicate:predicate];
     for (NSDictionary *recHook in recHooks) {
-        OnReceive callback = [recHook objectForKey:@"callback"];
+        OnMessage callback = [recHook objectForKey:@"callback"];
         callback([payload objectForKey:@"response"]);
     }
 }

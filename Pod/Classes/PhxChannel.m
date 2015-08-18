@@ -65,8 +65,8 @@ static int reconnectInterval = 5;
                                                                repeats:NO];
         }];
         
-        [self onEvent:@"phx_reply" callback:^(id message) {
-            [self triggerEvent:[self replyEventName:[message valueForKey:@"ref"]] message:message];
+        [self onEvent:@"phx_reply" callback:^(id message, id ref) {
+            [self triggerEvent:[self replyEventName:ref] message:message ref:ref];
         }];
     }
     return self;
@@ -119,18 +119,18 @@ static int reconnectInterval = 5;
 
 - (void)leave {
     [[self pushEvent:@"phx_leave" payload:@{}] onReceive:@"ok" callback:^(id message) {
-        [self triggerEvent:@"phx_close" message:@"leave"];
+        [self triggerEvent:@"phx_close" message:@"leave" ref:nil];
     }];
 }
 
 - (void)onClose:(OnClose)callback {
-    [self onEvent:@"phx_close" callback:^(id message) {
+    [self onEvent:@"phx_close" callback:^(id message, id ref) {
         callback(message);
     }];
 }
 
 - (void)onError:(OnError)callback {
-    [self onEvent:@"phx_error" callback:^(id error) {
+    [self onEvent:@"phx_error" callback:^(id error, id ref) {
         callback(error);
     }];
 }
@@ -157,14 +157,14 @@ static int reconnectInterval = 5;
     return [NSString stringWithFormat:@"chan_reply_%@", ref];
 }
 
-- (void)triggerEvent:(NSString*)event message:(id)message {
+- (void)triggerEvent:(NSString*)event message:(id)message ref:(id)ref {
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *binding, NSDictionary *bindings) {
         return [[binding valueForKey:@"event"] isEqualToString:event];
     }];
     NSArray *bindings = [self.bindings filteredArrayUsingPredicate:predicate];
     for (NSDictionary *binding in bindings) {
         OnReceive callback = [binding objectForKey:@"callback"];
-        callback(message);
+        callback(message, ref);
     }
 }
 

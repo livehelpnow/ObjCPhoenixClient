@@ -11,6 +11,7 @@
 #import <SocketRocket/SRWebSocket.h>
 #import "PhxChannel.h"
 #import "PhxChannel_Private.h"
+#import "NSDictionary+QueryString.h"
 
 static int reconnectInterval = 5;
 static int bufferFlushInterval = 0.5;
@@ -33,6 +34,8 @@ static int bufferFlushInterval = 0.5;
 @property (nonatomic, retain) NSMutableArray *errorCallbacks;
 @property (nonatomic, retain) NSMutableArray *messageCallbacks;
 
+@property (nonatomic, retain) NSDictionary *params;
+
 @property (readwrite) int ref;
 
 @end
@@ -40,13 +43,18 @@ static int bufferFlushInterval = 0.5;
 @implementation PhxSocket
 
 - (id)initWithURL:(NSURL*)url {
-    return [self initWithURL:url heartbeatInterval:0];
+    return [self initWithURL:url params:nil heartbeatInterval:0];
 }
 
-- (id)initWithURL:(NSURL*)url heartbeatInterval:(int)interval {
+- (id)initWithURL:(NSURL*)url params:(NSDictionary*)params {
+    return [self initWithURL:url params:params heartbeatInterval:0];
+}
+
+- (id)initWithURL:(NSURL*)url params:(NSDictionary*)params heartbeatInterval:(int)interval {
     self = [super init];
     if (self) {
         self.URL = url;
+        self.params = params;
         self.heartbeatInterval = interval;
         self.channels = [NSMutableArray new];
         self.sendBuffer = [NSMutableArray new];
@@ -63,7 +71,15 @@ static int bufferFlushInterval = 0.5;
 }
 
 - (void)connect {
-    self.socket = [[SRWebSocket alloc]initWithURL:self.URL];
+    NSURL *url;
+    if (self.params != nil) {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", [self.URL absoluteString], [self.params queryStringValue]]];
+    } else {
+        url = self.URL;
+    }
+    
+    NSLog(@"URL: %@", url);
+    self.socket = [[SRWebSocket alloc]initWithURL:url];
     self.socket.delegate = self;
     [self.socket open];
 }
@@ -216,22 +232,23 @@ static int bufferFlushInterval = 0.5;
         NSString *topic = [json valueForKey:@"topic"];
         NSString *event = [json valueForKey:@"event"];
         NSString *payload = [json valueForKey:@"payload"];
+        NSString *ref = [json valueForKey:@"ref"];
         NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(PhxChannel *channel, NSDictionary *bindings) {
             return [channel.topic isEqualToString:topic];
         }];
         NSArray *channels = [self.channels filteredArrayUsingPredicate:predicate];
         for (PhxChannel *channel in channels) {
-            [channel triggerEvent:event message:payload];
+            [channel triggerEvent:event message:payload ref:ref];
         }
         for (OnMessage callback in self.messageCallbacks) {
-            callback(topic, event, payload);
+            callback(json);
         }
     }
 }
 
 - (void)triggerChanError:(id)error {
     for (PhxChannel *channel in self.channels) {
-        [channel triggerEvent:@"phx_error" message:error];
+        [channel triggerEvent:@"phx_error" message:error ref:nil];
     }
 }
 
