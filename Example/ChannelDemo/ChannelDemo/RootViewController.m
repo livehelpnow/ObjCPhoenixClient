@@ -134,7 +134,7 @@
 
 - (IBAction)sendButton:(id)sender {
     [self sendMessage:self.message.text];
-    self.message.text = @"";
+    
 }
 
 - (void)sendMessage:(NSString*)message {
@@ -162,6 +162,7 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField == self.message) {
         [self sendMessage:textField.text];
+        self.message.text = @"";
         return NO;
     }
     return YES;

@@ -52,7 +52,7 @@
                                     <barButtonItem style="plain" systemItem="fixedSpace" id="E5f-Yv-weg"/>
                                     <barButtonItem title="send" id="1xY-Fq-TU8">
                                         <connections>
-                                            <action selector="sendMessage:" destination="jSo-GQ-SQ9" id="b3h-gs-UFp"/>
+                                            <action selector="sendButton:" destination="jSo-GQ-SQ9" id="kVz-6W-AHs"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
