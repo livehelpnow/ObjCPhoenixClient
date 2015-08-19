@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		1CA202C385D53C0106993074 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C10C6B517F156A7FEEBBCDD4 /* libPods.a */; };
+		C8A2C2DF1B83D2E3007CF006 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8A2C2DD1B83D2E3007CF006 /* Interface.storyboard */; };
+		C8A2C2E11B83D2E3007CF006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8A2C2E01B83D2E3007CF006 /* Assets.xcassets */; };
+		C8A2C2E81B83D2E3007CF006 /* WatchChannel Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C8A2C2E71B83D2E3007CF006 /* WatchChannel Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C8A2C2F01B83D2E3007CF006 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A2C2EF1B83D2E3007CF006 /* InterfaceController.m */; };
+		C8A2C2F31B83D2E3007CF006 /* ExtensionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A2C2F21B83D2E3007CF006 /* ExtensionDelegate.m */; };
+		C8A2C2F61B83D2E3007CF006 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A2C2F51B83D2E3007CF006 /* NotificationController.m */; };
+		C8A2C2F81B83D2E3007CF006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8A2C2F71B83D2E3007CF006 /* Assets.xcassets */; };
+		C8A2C2FC1B83D2E3007CF006 /* WatchChannel.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = C8A2C2DB1B83D2E3007CF006 /* WatchChannel.app */; };
+		C8A2C3751B83F2C0007CF006 /* MessageTableRow.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A2C3741B83F2C0007CF006 /* MessageTableRow.m */; };
 		C8FD275E1B824CBB0030D3A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C8FD275D1B824CBB0030D3A1 /* main.m */; };
 		C8FD27611B824CBB0030D3A1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8FD27601B824CBB0030D3A1 /* AppDelegate.m */; };
 		C8FD276A1B824CBB0030D3A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8FD27681B824CBB0030D3A1 /* Main.storyboard */; };
@@ -18,6 +27,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C8A2C2E91B83D2E3007CF006 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8FD27501B824CBB0030D3A1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C8A2C2E61B83D2E3007CF006;
+			remoteInfo = "WatchChannel Extension";
+		};
+		C8A2C2FA1B83D2E3007CF006 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8FD27501B824CBB0030D3A1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C8A2C2DA1B83D2E3007CF006;
+			remoteInfo = WatchChannel;
+		};
 		C8FD27751B824CBB0030D3A1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C8FD27501B824CBB0030D3A1 /* Project object */;
@@ -27,8 +50,49 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C8A2C3021B83D2E3007CF006 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C8A2C2E81B83D2E3007CF006 /* WatchChannel Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8A2C3041B83D2E3007CF006 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				C8A2C2FC1B83D2E3007CF006 /* WatchChannel.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		C10C6B517F156A7FEEBBCDD4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8A2C2DB1B83D2E3007CF006 /* WatchChannel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchChannel.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8A2C2DE1B83D2E3007CF006 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		C8A2C2E01B83D2E3007CF006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C8A2C2E21B83D2E3007CF006 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C8A2C2E71B83D2E3007CF006 /* WatchChannel Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "WatchChannel Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8A2C2ED1B83D2E3007CF006 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		C8A2C2EE1B83D2E3007CF006 /* InterfaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
+		C8A2C2EF1B83D2E3007CF006 /* InterfaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
+		C8A2C2F11B83D2E3007CF006 /* ExtensionDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtensionDelegate.h; sourceTree = "<group>"; };
+		C8A2C2F21B83D2E3007CF006 /* ExtensionDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtensionDelegate.m; sourceTree = "<group>"; };
+		C8A2C2F41B83D2E3007CF006 /* NotificationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationController.h; sourceTree = "<group>"; };
+		C8A2C2F51B83D2E3007CF006 /* NotificationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationController.m; sourceTree = "<group>"; };
+		C8A2C2F71B83D2E3007CF006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C8A2C2F91B83D2E3007CF006 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C8A2C3731B83F2C0007CF006 /* MessageTableRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageTableRow.h; sourceTree = "<group>"; };
+		C8A2C3741B83F2C0007CF006 /* MessageTableRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTableRow.m; sourceTree = "<group>"; };
 		C8FD27581B824CBB0030D3A1 /* ChannelDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChannelDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8FD275C1B824CBB0030D3A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8FD275D1B824CBB0030D3A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -47,6 +111,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C8A2C2E41B83D2E3007CF006 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C8FD27551B824CBB0030D3A1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -82,11 +153,49 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C8A2C2DC1B83D2E3007CF006 /* WatchChannel */ = {
+			isa = PBXGroup;
+			children = (
+				C8A2C2DD1B83D2E3007CF006 /* Interface.storyboard */,
+				C8A2C2E01B83D2E3007CF006 /* Assets.xcassets */,
+				C8A2C2E21B83D2E3007CF006 /* Info.plist */,
+			);
+			path = WatchChannel;
+			sourceTree = "<group>";
+		};
+		C8A2C2EB1B83D2E3007CF006 /* WatchChannel Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C8A2C2EE1B83D2E3007CF006 /* InterfaceController.h */,
+				C8A2C2EF1B83D2E3007CF006 /* InterfaceController.m */,
+				C8A2C2F11B83D2E3007CF006 /* ExtensionDelegate.h */,
+				C8A2C2F21B83D2E3007CF006 /* ExtensionDelegate.m */,
+				C8A2C2F41B83D2E3007CF006 /* NotificationController.h */,
+				C8A2C2F51B83D2E3007CF006 /* NotificationController.m */,
+				C8A2C2F71B83D2E3007CF006 /* Assets.xcassets */,
+				C8A2C2F91B83D2E3007CF006 /* Info.plist */,
+				C8A2C2EC1B83D2E3007CF006 /* Supporting Files */,
+				C8A2C3731B83F2C0007CF006 /* MessageTableRow.h */,
+				C8A2C3741B83F2C0007CF006 /* MessageTableRow.m */,
+			);
+			path = "WatchChannel Extension";
+			sourceTree = "<group>";
+		};
+		C8A2C2EC1B83D2E3007CF006 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C8A2C2ED1B83D2E3007CF006 /* PushNotificationPayload.apns */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		C8FD274F1B824CBB0030D3A1 = {
 			isa = PBXGroup;
 			children = (
 				C8FD275A1B824CBB0030D3A1 /* ChannelDemo */,
 				C8FD27771B824CBB0030D3A1 /* ChannelDemoTests */,
+				C8A2C2DC1B83D2E3007CF006 /* WatchChannel */,
+				C8A2C2EB1B83D2E3007CF006 /* WatchChannel Extension */,
 				C8FD27591B824CBB0030D3A1 /* Products */,
 				02D058CC459B87DC57CA9A99 /* Pods */,
 				865F0A977FEF2BA65B7A19BB /* Frameworks */,
@@ -98,6 +207,8 @@
 			children = (
 				C8FD27581B824CBB0030D3A1 /* ChannelDemo.app */,
 				C8FD27741B824CBB0030D3A1 /* ChannelDemoTests.xctest */,
+				C8A2C2DB1B83D2E3007CF006 /* WatchChannel.app */,
+				C8A2C2E71B83D2E3007CF006 /* WatchChannel Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -146,6 +257,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C8A2C2DA1B83D2E3007CF006 /* WatchChannel */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C8A2C3031B83D2E3007CF006 /* Build configuration list for PBXNativeTarget "WatchChannel" */;
+			buildPhases = (
+				C8A2C2D91B83D2E3007CF006 /* Resources */,
+				C8A2C3021B83D2E3007CF006 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C8A2C2EA1B83D2E3007CF006 /* PBXTargetDependency */,
+			);
+			name = WatchChannel;
+			productName = WatchChannel;
+			productReference = C8A2C2DB1B83D2E3007CF006 /* WatchChannel.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		C8A2C2E61B83D2E3007CF006 /* WatchChannel Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C8A2C3011B83D2E3007CF006 /* Build configuration list for PBXNativeTarget "WatchChannel Extension" */;
+			buildPhases = (
+				C8A2C2E31B83D2E3007CF006 /* Sources */,
+				C8A2C2E41B83D2E3007CF006 /* Frameworks */,
+				C8A2C2E51B83D2E3007CF006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "WatchChannel Extension";
+			productName = "WatchChannel Extension";
+			productReference = C8A2C2E71B83D2E3007CF006 /* WatchChannel Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		C8FD27571B824CBB0030D3A1 /* ChannelDemo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C8FD277E1B824CBB0030D3A1 /* Build configuration list for PBXNativeTarget "ChannelDemo" */;
@@ -155,10 +300,12 @@
 				C8FD27551B824CBB0030D3A1 /* Frameworks */,
 				C8FD27561B824CBB0030D3A1 /* Resources */,
 				74047D023A8B11609688717A /* Copy Pods Resources */,
+				C8A2C3041B83D2E3007CF006 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C8A2C2FB1B83D2E3007CF006 /* PBXTargetDependency */,
 			);
 			name = ChannelDemo;
 			productName = ChannelDemo;
@@ -192,8 +339,19 @@
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = PhoenixFramework;
 				TargetAttributes = {
+					C8A2C2DA1B83D2E3007CF006 = {
+						CreatedOnToolsVersion = 7.0;
+					};
+					C8A2C2E61B83D2E3007CF006 = {
+						CreatedOnToolsVersion = 7.0;
+					};
 					C8FD27571B824CBB0030D3A1 = {
 						CreatedOnToolsVersion = 6.4;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					C8FD27731B824CBB0030D3A1 = {
 						CreatedOnToolsVersion = 6.4;
@@ -216,11 +374,30 @@
 			targets = (
 				C8FD27571B824CBB0030D3A1 /* ChannelDemo */,
 				C8FD27731B824CBB0030D3A1 /* ChannelDemoTests */,
+				C8A2C2DA1B83D2E3007CF006 /* WatchChannel */,
+				C8A2C2E61B83D2E3007CF006 /* WatchChannel Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C8A2C2D91B83D2E3007CF006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C8A2C2E11B83D2E3007CF006 /* Assets.xcassets in Resources */,
+				C8A2C2DF1B83D2E3007CF006 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8A2C2E51B83D2E3007CF006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C8A2C2F81B83D2E3007CF006 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C8FD27561B824CBB0030D3A1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -274,6 +451,17 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C8A2C2E31B83D2E3007CF006 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C8A2C2F31B83D2E3007CF006 /* ExtensionDelegate.m in Sources */,
+				C8A2C3751B83F2C0007CF006 /* MessageTableRow.m in Sources */,
+				C8A2C2F01B83D2E3007CF006 /* InterfaceController.m in Sources */,
+				C8A2C2F61B83D2E3007CF006 /* NotificationController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C8FD27541B824CBB0030D3A1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -295,6 +483,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C8A2C2EA1B83D2E3007CF006 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C8A2C2E61B83D2E3007CF006 /* WatchChannel Extension */;
+			targetProxy = C8A2C2E91B83D2E3007CF006 /* PBXContainerItemProxy */;
+		};
+		C8A2C2FB1B83D2E3007CF006 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C8A2C2DA1B83D2E3007CF006 /* WatchChannel */;
+			targetProxy = C8A2C2FA1B83D2E3007CF006 /* PBXContainerItemProxy */;
+		};
 		C8FD27761B824CBB0030D3A1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C8FD27571B824CBB0030D3A1 /* ChannelDemo */;
@@ -303,6 +501,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		C8A2C2DD1B83D2E3007CF006 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C8A2C2DE1B83D2E3007CF006 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		C8FD27681B824CBB0030D3A1 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -322,6 +528,68 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		C8A2C2FD1B83D2E3007CF006 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				IBSC_MODULE = WatchChannel_Extension;
+				INFOPLIST_FILE = WatchChannel/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = org.phoenixframework.ChannelDemo.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		C8A2C2FE1B83D2E3007CF006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				IBSC_MODULE = WatchChannel_Extension;
+				INFOPLIST_FILE = WatchChannel/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = org.phoenixframework.ChannelDemo.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		C8A2C2FF1B83D2E3007CF006 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = "WatchChannel Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.phoenixframework.ChannelDemo.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		C8A2C3001B83D2E3007CF006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "WatchChannel Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.phoenixframework.ChannelDemo.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
 		C8FD277C1B824CBB0030D3A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -461,6 +729,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C8A2C3011B83D2E3007CF006 /* Build configuration list for PBXNativeTarget "WatchChannel Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C8A2C2FF1B83D2E3007CF006 /* Debug */,
+				C8A2C3001B83D2E3007CF006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		C8A2C3031B83D2E3007CF006 /* Build configuration list for PBXNativeTarget "WatchChannel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C8A2C2FD1B83D2E3007CF006 /* Debug */,
+				C8A2C2FE1B83D2E3007CF006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		C8FD27531B824CBB0030D3A1 /* Build configuration list for PBXProject "ChannelDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

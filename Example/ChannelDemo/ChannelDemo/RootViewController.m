@@ -8,8 +8,9 @@
 
 #import "RootViewController.h"
 #import <PhoenixClient/PhoenixClient.h>
+#import <WatchConnectivity/WatchConnectivity.h>
 
-@interface RootViewController () <UITextFieldDelegate>
+@interface RootViewController () <UITextFieldDelegate, WCSessionDelegate>
 
 @property (nonatomic, retain) PhxSocket *socket;
 @property (nonatomic, retain) PhxChannel *channel;
@@ -18,6 +19,7 @@
 @property (nonatomic, retain) IBOutlet UITextField *username;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *sendButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *keyboardHeight;
+@property (nonatomic, retain) WCSession *session;
 - (IBAction)dismissKeyboard:(id)sender;
 @end
 
@@ -28,6 +30,25 @@
     // Do any additional setup after loading the view.
     self.message.delegate = self;
     self.textView.layoutManager.allowsNonContiguousLayout = NO;
+    
+    
+    if ([WCSession isSupported]) {
+        if (self.session == nil) {
+            self.session = [WCSession defaultSession];
+        }
+        self.session.delegate = self;
+        [self.session activateSession];
+    }
+    [self phoenixConnect];
+    
+    [self observeKeyboard];
+    [self resizeToolbarItems:self.view.frame.size];
+}
+
+- (void)phoenixConnect {
+    if (self.socket != nil && [self.socket isConnected]) {
+        return;
+    }
     self.socket = [[PhxSocket alloc] initWithURL:[NSURL URLWithString:@"http://localhost:4000/socket/websocket"] heartbeatInterval:20];
     [self.socket connectWithParams:@{@"user_id":@123}];
     self.channel = [[PhxChannel alloc] initWithSocket:self.socket topic:@"rooms:lobby" params:@{}];
@@ -37,7 +58,7 @@
         NSString* user = [message valueForKey:@"user"];
         NSString* body = [message valueForKey:@"body"];
         if ([user isEqual:[NSNull null]]) {user = @"anonymous";}
-        
+        [self sendWatchMessage:message];
         [self appendString:[NSString stringWithFormat:@"[%@] %@", user, body]];
     }];
     
@@ -45,12 +66,11 @@
         NSLog(@"New User Entered: %@", message);
         NSString* user = [message valueForKey:@"user"];
         if ([user isEqual:[NSNull null]]) {user = @"anonymous";}
+        [self sendWatchMessage:message];
         [self appendString:[NSString stringWithFormat:@"[%@ entered]", user]];
     }];
     
     [self.channel join];
-    [self observeKeyboard];
-    [self resizeToolbarItems:self.view.frame.size];
 }
 
 - (void)observeKeyboard {
@@ -112,19 +132,36 @@
 
 }
 
-- (IBAction)sendMessage:(id)sender {
-    if ([self.message.text isEqualToString:@""]) {
+- (IBAction)sendButton:(id)sender {
+    [self sendMessage:self.message.text];
+    self.message.text = @"";
+}
+
+- (void)sendMessage:(NSString*)message {
+    if ([message isEqualToString:@""]) {
         return;
     }
     NSString *user = self.username.text;
     if ([user isEqualToString:@""]) {user = @"anonymous";}
-    [self.channel pushEvent:@"new:msg" payload:@{@"user":user, @"body":self.message.text}];
-    self.message.text = @"";
+    [self.channel pushEvent:@"new:msg" payload:@{@"user":user, @"body":message}];
+}
+
+- (void)sendWatchMessage:(NSDictionary*)message {
+    NSString *body = [message valueForKey:@"body"];
+    NSString *user = [message valueForKey:@"user"];
+    if (user == nil) {user = @"anonymous";}
+    if (body == nil) {body = @"entered";}
+    NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[body, user] forKeys:@[@"body", @"user"]];
+    [self.session sendMessage:applicationData replyHandler:^(NSDictionary<NSString *,id> * _Nonnull replyMessage) {
+        
+    } errorHandler:^(NSError * _Nonnull error) {
+        
+    }];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField == self.message) {
-        [self sendMessage:textField];
+        [self sendMessage:textField.text];
         return NO;
     }
     return YES;
@@ -147,6 +184,14 @@
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [self resizeToolbarItems:size];
+}
+- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler {
+    NSString *body = [message valueForKey:@"body"];
+    
+    //Use this to update the UI instantaneously (otherwise, takes a little while)
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self sendMessage:body];
+    });
 }
 
 @end
