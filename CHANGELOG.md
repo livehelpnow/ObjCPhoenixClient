@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.0.0
+* Tested and updated support for Phoenix 1.0.0
+
 ## v0.3.1
 * Updated ChannelDemo to use target 7.0
 

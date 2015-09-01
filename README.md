@@ -7,7 +7,10 @@
 
 ## Usage
 
-PhoenixClient is intended for use with Phoenix version >= 0.16.0. This client is not backwards compatible with a phoenix server less than this version.
+PhoenixClient is ready for use with Phoenix Framework v1.0.0. The PhoenixClient enables communication with a phoenix framework web project through the use of channels over websocket.
+
+Learn more about the Phoenix Framework at
+http://www.phoenixframework.org/
 
 ### Socket Connection
 
@@ -89,6 +92,10 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod "PhoenixClient"
 ```
+
+Or without cocoapods
+
+You can down the source and include all the files located in /Pod/Classes in your project
 
 ## Example
 Included in the source is the ChannelDemo iOS app. to use this app you will need to run the phoenix_chat_example. You can check this app out from
