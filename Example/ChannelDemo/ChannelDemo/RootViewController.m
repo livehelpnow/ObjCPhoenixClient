@@ -50,7 +50,7 @@
         return;
     }
     self.socket = [[PhxSocket alloc] initWithURL:[NSURL URLWithString:@"http://localhost:4000/socket/websocket"] heartbeatInterval:20];
-    [self.socket connectWithParams:@{@"user_id":@123}];
+    [self.socket connectWithParams:@{@"user_id":@""}];
     self.channel = [[PhxChannel alloc] initWithSocket:self.socket topic:@"rooms:lobby" params:@{}];
     
     [self.channel onEvent:@"new:msg" callback:^(id message, id ref) {

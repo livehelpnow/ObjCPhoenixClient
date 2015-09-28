@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.0.1
+* Fixed issue where NSString could not get stringValue called on it
+
 ## v1.0.0
 * Tested and updated support for Phoenix 1.0.0
 
