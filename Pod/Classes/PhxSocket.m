@@ -13,8 +13,8 @@
 #import "PhxChannel_Private.h"
 #import "NSDictionary+QueryString.h"
 
-static int reconnectInterval = 5;
-static int bufferFlushInterval = 0.5;
+static NSTimeInterval reconnectInterval = 5;
+static NSTimeInterval bufferFlushInterval = 0.5;
 
 @interface PhxSocket () <SRWebSocketDelegate>
 
