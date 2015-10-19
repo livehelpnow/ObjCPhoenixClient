@@ -13,8 +13,7 @@
 #import "PhxChannel_Private.h"
 #import "NSDictionary+QueryString.h"
 
-static int reconnectInterval = 5;
-static int bufferFlushInterval = 0.5;
+static NSTimeInterval reconnectInterval = 5;
 
 @interface PhxSocket () <SRWebSocketDelegate>
 
@@ -23,7 +22,7 @@ static int bufferFlushInterval = 0.5;
 @property (nonatomic, assign) int heartbeatInterval;
 
 @property (nonatomic, retain) NSMutableArray *channels;
-@property (nonatomic, retain) NSMutableArray *sendBuffer;
+@property (nonatomic, strong) NSOperationQueue *queue;
 
 @property (nonatomic, retain) NSTimer *sendBufferTimer;
 @property (nonatomic, retain) NSTimer *reconnectTimer;
@@ -53,14 +52,15 @@ static int bufferFlushInterval = 0.5;
         self.params = nil;
         self.heartbeatInterval = interval;
         self.channels = [NSMutableArray new];
-        self.sendBuffer = [NSMutableArray new];
         self.openCallbacks = [NSMutableArray new];
         self.closeCallbacks = [NSMutableArray new];
         self.errorCallbacks = [NSMutableArray new];
         self.messageCallbacks = [NSMutableArray new];
         self.reconnectOnError = YES;
+
+        self.queue = [[NSOperationQueue alloc] init];
+        [self.queue setSuspended:YES];
         
-        [self resetBufferTimer];
         //[self reconnect];
     }
     return self;
@@ -160,17 +160,15 @@ static int bufferFlushInterval = 0.5;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data options:0 error:&error];
     if (!error) {
         NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        if ([self isConnected]) {
+        [self.queue addOperationWithBlock:^{
             [self.socket send:jsonString];
-        } else {
-            [self.sendBuffer addObject:jsonString];
-        }
+        }];
     }
 }
 
 - (void)onConnOpen {
     NSLog(@"PhxSocket Opened");
-    [self flushSendBuffer];
+    [self.queue setSuspended:NO];
     if (self.reconnectTimer) {
         [self.reconnectTimer invalidate];
         self.reconnectTimer = nil;
@@ -190,6 +188,7 @@ static int bufferFlushInterval = 0.5;
 
 - (void)onConnClose:(id)event {
     NSLog(@"PhxSocket Closed");
+    [self.queue setSuspended:YES];
     [self triggerChanError:event];
     
     if (self.reconnectOnError) {
@@ -215,6 +214,7 @@ static int bufferFlushInterval = 0.5;
 
 - (void)onConnError:(id)error {
     NSLog(@"PhxSocket Failed with Error: %@", [error localizedDescription]);
+    [self.queue setSuspended:YES];
     for (OnError callback in self.errorCallbacks) {
         callback(error);
     }
@@ -252,26 +252,6 @@ static int bufferFlushInterval = 0.5;
     for (PhxChannel *channel in self.channels) {
         [channel triggerEvent:@"phx_error" message:error ref:nil];
     }
-}
-
-- (void)flushSendBuffer {
-    if ([self isConnected] && [self.sendBuffer count] > 0) {
-        // Enum the buffer and send data
-        for (NSString* jsonString in self.sendBuffer) {
-            [self.socket send:jsonString];
-        }
-        // Empty the Array
-        [self.sendBuffer removeAllObjects];
-        [self resetBufferTimer];
-    }
-}
-
-- (void)resetBufferTimer {
-    if (self.sendBufferTimer) {
-        [self.sendBufferTimer invalidate];
-        self.sendBufferTimer = nil;
-    }
-    self.sendBufferTimer = [NSTimer scheduledTimerWithTimeInterval:bufferFlushInterval target:self selector:@selector(flushSendBuffer) userInfo:nil repeats:true];
 }
 
 - (void)startHeartbeatTimerWithInterval:(int)interval {
