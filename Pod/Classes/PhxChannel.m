@@ -42,27 +42,26 @@
         self.joinedOnce = NO;
         self.joinPush = [[PhxPush alloc] initWithChannel:self event:@"phx_join" payload:self.params];
         
+        __weak typeof(self) weakSelf = self;
         [self.joinPush onReceive:@"ok" callback:^(id message) {
-            self.state = ChannelJoined;
+            weakSelf.state = ChannelJoined;
         }];
         
         [self.socket onOpen:^{
-            [self rejoin];
+            [weakSelf rejoin];
         }];
         
         [self onClose:^(id event) {
-            self.state = ChannelClosed;
-            [self.socket removeChannel:self];
+            weakSelf.state = ChannelClosed;
+            [weakSelf.socket removeChannel:weakSelf];
         }];
         
         [self onError:^(id error) {
-            if (self.state != ChannelJoining) {
-                self.state = ChannelErrored;
-            }
+            weakSelf.state = ChannelErrored;
         }];
         
         [self onEvent:@"phx_reply" callback:^(id message, id ref) {
-            [self triggerEvent:[self replyEventName:ref] message:message ref:ref];
+            [weakSelf triggerEvent:[weakSelf replyEventName:ref] message:message ref:ref];
         }];
     }
     return self;
@@ -80,22 +79,18 @@
 }
 
 - (void)rejoin {
-    if (self.joinedOnce && self.state != ChannelJoined && self.state != ChannelJoining) {
+    if (self.joinedOnce && self.state != ChannelJoined) {
         [self sendJoin];
     }
 }
 
 - (void)sendJoin {
-    self.state = ChannelJoining;
     self.joinPush.payload = self.params;
     [self.joinPush send];
 }
 
-- (BOOL)canSendPush {
-    return [self.socket isConnected] && (self.state == ChannelJoined);
-}
-
 - (void)leave {
+    self.state = ChannelClosed;
     [[self pushEvent:@"phx_leave" payload:@{}] onReceive:@"ok" callback:^(id message) {
         [self triggerEvent:@"phx_close" message:@"leave" ref:nil];
     }];

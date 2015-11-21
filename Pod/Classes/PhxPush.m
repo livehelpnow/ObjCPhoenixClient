@@ -13,7 +13,7 @@
 
 @interface PhxPush ()
 
-@property (nonatomic, retain) PhxChannel *channel;
+@property (nonatomic, weak) PhxChannel *channel;
 @property (nonatomic, retain) NSString *event;
 @property (nonatomic, retain) NSString *refEvent;
 @property (nonatomic, retain) NSDictionary *payload;
@@ -56,11 +56,12 @@
     self.receivedResp = nil;
     self.sent = NO;
     
+    __weak typeof(self) weakSelf = self;
     [self.channel onEvent:self.refEvent callback:^(id message, id ref) {
-        self.receivedResp = message;
-        [self matchReceive:message];
-        [self cancelRefEvent];
-        [self cancelAfter];
+        weakSelf.receivedResp = message;
+        [weakSelf matchReceive:message];
+        [weakSelf cancelRefEvent];
+        [weakSelf cancelAfter];
     }];
     [self startAfter];
     self.sent = YES;
@@ -101,9 +102,10 @@
     if (!self.afterHook) {
         return;
     }
+    __weak typeof(self) weakSelf = self;
     After callback = ^() {
-        [self cancelRefEvent];
-        self.afterHook();
+        [weakSelf cancelRefEvent];
+        weakSelf.afterHook();
     };
     self.afterTimer = [NSTimer scheduledTimerWithTimeInterval:self.afterInterval target:self selector:@selector(afterTimerFire:) userInfo:callback repeats:NO];
 }

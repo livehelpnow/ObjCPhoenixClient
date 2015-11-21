@@ -17,8 +17,7 @@ typedef enum {
 typedef enum {
     ChannelClosed,
     ChannelErrored,
-    ChannelJoined,
-    ChannelJoining
+    ChannelJoined
 } ChannelState;
 
 typedef void (^OnOpen)(void);

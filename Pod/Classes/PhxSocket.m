@@ -87,15 +87,13 @@ static NSTimeInterval reconnectInterval = 5;
 }
 
 - (void)disconnect {
-    if (self.socket) {
-        self.socket.delegate = nil;
-        [self.socket close];
-        self.socket = nil;
-    }
+    [self discardHeartbeatTimer];
+    [self discardReconnectTimer];
+    [self disconnectSocket];
 }
 
 - (void)reconnect {
-    [self disconnect];
+    [self disconnectSocket];
     [self connectWithParams:self.params];
 }
 
@@ -153,8 +151,6 @@ static NSTimeInterval reconnectInterval = 5;
     [self.messageCallbacks addObject:callback];
 }
 
-#pragma mark - Private Methods
-
 - (void)push:(NSDictionary*)data {
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data options:0 error:&error];
@@ -166,13 +162,35 @@ static NSTimeInterval reconnectInterval = 5;
     }
 }
 
-- (void)onConnOpen {
-    NSLog(@"PhxSocket Opened");
-    [self.queue setSuspended:NO];
+#pragma mark - Private Methods
+
+- (void)disconnectSocket {
+    if (self.socket) {
+        self.socket.delegate = nil;
+        [self.socket close];
+        self.socket = nil;
+    }
+}
+
+- (void)discardHeartbeatTimer
+{
+    if (self.heartbeatTimer) {
+        [self.heartbeatTimer invalidate];
+        self.heartbeatTimer = nil;
+    }
+}
+
+- (void)discardReconnectTimer {
     if (self.reconnectTimer) {
         [self.reconnectTimer invalidate];
         self.reconnectTimer = nil;
     }
+}
+
+- (void)onConnOpen {
+    NSLog(@"PhxSocket Opened");
+    [self.queue setSuspended:NO];
+    [self discardReconnectTimer];
     if (self.heartbeatInterval > 0) {
         [self startHeartbeatTimerWithInterval:self.heartbeatInterval];
     }
@@ -192,16 +210,10 @@ static NSTimeInterval reconnectInterval = 5;
     [self triggerChanError:event];
     
     if (self.reconnectOnError) {
-        if (self.reconnectTimer) {
-            [self.reconnectTimer invalidate];
-            self.reconnectTimer = nil;
-        }
+        [self discardReconnectTimer];
         self.reconnectTimer = [NSTimer scheduledTimerWithTimeInterval:reconnectInterval target:self selector:@selector(reconnect) userInfo:nil repeats:YES];
     }
-    if (self.heartbeatTimer) {
-        [self.heartbeatTimer invalidate];
-        self.heartbeatTimer = nil;
-    }
+    [self discardHeartbeatTimer];
     
     for (OnClose callback in self.closeCallbacks) {
         callback(event);
@@ -215,6 +227,8 @@ static NSTimeInterval reconnectInterval = 5;
 - (void)onConnError:(id)error {
     NSLog(@"PhxSocket Failed with Error: %@", [error localizedDescription]);
     [self.queue setSuspended:YES];
+    [self discardHeartbeatTimer];
+
     for (OnError callback in self.errorCallbacks) {
         callback(error);
     }
