@@ -17,6 +17,7 @@ typedef enum {
 typedef enum {
     ChannelClosed,
     ChannelErrored,
+    ChannelJoining,
     ChannelJoined
 } ChannelState;
 
