@@ -12,18 +12,14 @@
 #import "PhxSocket.h"
 #import "PhxSocket_Private.h"
 
-static int reconnectInterval = 5;
-
 @interface PhxChannel ()
 
 @property (nonatomic, readwrite) ChannelState state;
 
 @property (nonatomic, retain) NSMutableArray *bindings;
-@property (nonatomic, retain) NSMutableArray *pushBuffer;
 
 @property (readwrite) BOOL joinedOnce;
 @property (nonatomic, retain) PhxPush *joinPush;
-@property (nonatomic, retain) NSTimer *rejoinTimer;
 
 @end
 
@@ -41,47 +37,34 @@ static int reconnectInterval = 5;
         }
         self.socket = socket;
         self.bindings = [NSMutableArray new];
-        self.pushBuffer = [NSMutableArray new];
         [self.socket addChannel:self];
         
         self.joinedOnce = NO;
         self.joinPush = [[PhxPush alloc] initWithChannel:self event:@"phx_join" payload:self.params];
         
+        __weak typeof(self) weakSelf = self;
         [self.joinPush onReceive:@"ok" callback:^(id message) {
-            self.state = ChannelJoined;
+            weakSelf.state = ChannelJoined;
+        }];
+        
+        [self.socket onOpen:^{
+            [weakSelf rejoin];
         }];
         
         [self onClose:^(id event) {
-            self.state = ChannelClosed;
-            [self.socket removeChannel:self];
+            weakSelf.state = ChannelClosed;
+            [weakSelf.socket removeChannel:weakSelf];
         }];
         
         [self onError:^(id error) {
-            self.state = ChannelErrored;
-            self.rejoinTimer = [NSTimer scheduledTimerWithTimeInterval:reconnectInterval
-                                                                target:self
-                                                              selector:@selector(rejoinUntilConnected)
-                                                              userInfo:nil
-                                                               repeats:NO];
+            weakSelf.state = ChannelErrored;
         }];
         
         [self onEvent:@"phx_reply" callback:^(id message, id ref) {
-            [self triggerEvent:[self replyEventName:ref] message:message ref:ref];
+            [weakSelf triggerEvent:[weakSelf replyEventName:ref] message:message ref:ref];
         }];
     }
     return self;
-}
-
-- (void)rejoinUntilConnected {
-    if ([self.socket isConnected]) {
-        [self rejoin];
-    } else {
-        self.rejoinTimer = [NSTimer scheduledTimerWithTimeInterval:reconnectInterval
-                                                            target:self
-                                                          selector:@selector(rejoinUntilConnected)
-                                                          userInfo:nil
-                                                           repeats:NO];
-    }
 }
 
 - (PhxPush*)join {
@@ -96,28 +79,18 @@ static int reconnectInterval = 5;
 }
 
 - (void)rejoin {
-    if (self.rejoinTimer) {
-        [self.rejoinTimer invalidate];
-        self.rejoinTimer = nil;
+    if (self.joinedOnce && self.state != ChannelJoined) {
+        [self sendJoin];
     }
-    [self sendJoin];
 }
 
 - (void)sendJoin {
-    self.state = ChannelJoining;
     self.joinPush.payload = self.params;
     [self.joinPush send];
-    for (PhxPush *push in self.pushBuffer) {
-        [push send];
-    }
-    [self.pushBuffer removeAllObjects];
-}
-
-- (BOOL)canSendPush {
-    return [self.socket isConnected] && (self.state == ChannelJoined);
 }
 
 - (void)leave {
+    self.state = ChannelClosed;
     [[self pushEvent:@"phx_leave" payload:@{}] onReceive:@"ok" callback:^(id message) {
         [self triggerEvent:@"phx_close" message:@"leave" ref:nil];
     }];

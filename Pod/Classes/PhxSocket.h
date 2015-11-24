@@ -21,7 +21,7 @@
 
 @interface PhxSocket : NSObject
 
-@property (nonatomic) id<PhxSocketDelegate> delegate;
+@property (nonatomic, weak) id<PhxSocketDelegate> delegate;
 @property (nonatomic, readwrite) BOOL reconnectOnError;
 
 - (id)initWithURL:(NSURL*)url;

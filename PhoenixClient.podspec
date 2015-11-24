@@ -27,5 +27,5 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
-  s.dependency "SocketRocket", "0.3.1-beta2"
+  s.dependency "SocketRocket", "0.4.2"
 end

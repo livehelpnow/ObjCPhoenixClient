@@ -23,8 +23,8 @@
 
 @interface PhxChannel : NSObject
 
-@property (nonatomic) id<PhxChannelDelegate> delegate;
-@property (nonatomic, retain) PhxSocket* socket;
+@property (nonatomic, weak) id<PhxChannelDelegate> delegate;
+@property (nonatomic, weak) PhxSocket* socket;
 @property (nonatomic, readonly) ChannelState state;
 @property (nonatomic, retain) NSString* topic;
 @property (nonatomic, retain) NSDictionary *params;
@@ -35,7 +35,6 @@
 
 - (PhxPush*)join;
 - (void)leave;
-- (BOOL)canSendPush;
 
 - (void)onEvent:(NSString*)event callback:(OnReceive)callback;
 - (void)offEvent:(NSString*)event;
