@@ -79,12 +79,13 @@
 }
 
 - (void)rejoin {
-    if (self.joinedOnce && self.state != ChannelJoined) {
+    if (self.joinedOnce && self.state != ChannelJoining && self.state != ChannelJoined) {
         [self sendJoin];
     }
 }
 
 - (void)sendJoin {
+    self.state = ChannelJoining;
     self.joinPush.payload = self.params;
     [self.joinPush send];
 }
