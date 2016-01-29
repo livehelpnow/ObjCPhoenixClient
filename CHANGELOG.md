@@ -1,8 +1,9 @@
 # Changelog
 
-## v1.0.1
+## v1.1.0
 * Fixed issue with double joins on channels
 * Updated deps
+* Dropped support for os x 10.7
 
 ## v1.0.1
 * Fixed issue where NSString could not get stringValue called on it
