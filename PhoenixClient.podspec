@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "PhoenixClient"
-  s.version          = "1.0.1"
+  s.version          = "1.0.2"
   s.summary          = "Phoenix Framework Channel Client"
   s.description      = <<-DESC
                         Phoenix Client allows ObjC based application to connect to Phoenix Framework channels over websocket.
