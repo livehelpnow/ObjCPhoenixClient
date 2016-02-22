@@ -21,7 +21,7 @@ static NSTimeInterval kReconnectInterval = 5;
 
 @property (nullable, nonatomic) SRWebSocket *socket;
 @property (nonatomic, strong) NSURL *URL;
-@property (nonatomic, strong) NSTimeInterval heartbeatInterval;
+@property (nonatomic) NSTimeInterval heartbeatInterval;
 
 @property (nonatomic, strong) NSMutableArray *channels;
 @property (nonatomic, strong) NSOperationQueue *queue;
