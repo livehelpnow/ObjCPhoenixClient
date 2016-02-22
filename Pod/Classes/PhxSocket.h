@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PhxSocket : NSObject
 
 @property (nonatomic, weak) id<PhxSocketDelegate> delegate;
-@property (nonatomic, strong) BOOL reconnectOnError;
+@property (nonatomic) BOOL reconnectOnError;
 
 - (instancetype)initWithURL:(NSURL*)url;
 - (instancetype)initWithURL:(NSURL*)url heartbeatInterval:(NSTimeInterval)interval;
