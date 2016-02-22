@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PhxPush ()
+@interface PhxPush()
 
 @property (nonatomic) NSDictionary *payload;
 

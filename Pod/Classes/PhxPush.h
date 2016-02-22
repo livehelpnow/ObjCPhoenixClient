@@ -15,9 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PhxPush : NSObject
 
-- (instancetype)initWithChannel:(PhxChannel *)channel
-                          event:(NSString *)event
-                        payload:(NSDictionary *)payload;
+- (instancetype)initWithChannel:(PhxChannel*)channel
+                          event:(NSString*)event
+                        payload:(NSDictionary*)payload;
 
 - (void)send;
 
