@@ -37,7 +37,7 @@ static NSTimeInterval kReconnectInterval = 5;
 
 @property (nullable, nonatomic) NSDictionary *params;
 
-@property int ref;
+@property (atomic) NSUInteger ref;
 
 @end
 
@@ -283,11 +283,9 @@ static NSTimeInterval kReconnectInterval = 5;
 }
 
 - (NSString*)makeRef {
-    // TODO: Catch integer overflow
-    int newRef = self.ref + 1;
-    return [NSString stringWithFormat:@"%i", newRef];
+    self.ref += 1;
+    return [NSString stringWithFormat:@"%zd", self.ref];
 }
-
 
 #pragma mark - SRWebSocket Delegate
 
