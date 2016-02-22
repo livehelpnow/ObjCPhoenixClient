@@ -1,4 +1,14 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, '8.0'
+
+workspace '../../PhoenixClient'
+xcodeproj 'ChannelDemo.xcodeproj'
+
+target "ChannelDemo" do
 pod 'PhoenixClient', :path => '../../'
+end
+
+target "ChannelDemoTests" do
+
+end
