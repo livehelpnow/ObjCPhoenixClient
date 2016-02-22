@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "PhxTypes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol PhxSocketDelegate <NSObject>
 
 - (void)phxSocketDidOpen;
@@ -22,13 +24,13 @@
 @interface PhxSocket : NSObject
 
 @property (nonatomic, weak) id<PhxSocketDelegate> delegate;
-@property (nonatomic, readwrite) BOOL reconnectOnError;
+@property (nonatomic) BOOL reconnectOnError;
 
-- (id)initWithURL:(NSURL*)url;
-- (id)initWithURL:(NSURL*)url heartbeatInterval:(int)interval;
+- (instancetype)initWithURL:(NSURL*)url;
+- (instancetype)initWithURL:(NSURL*)url heartbeatInterval:(int)interval;
 
 - (void)connect;
-- (void)connectWithParams:(NSDictionary*)params;
+- (void)connectWithParams:(nullable NSDictionary*)params;
 - (void)disconnect;
 - (void)reconnect;
 
@@ -47,3 +49,5 @@
 - (void)push:(NSDictionary*)data;
 
 @end
+
+NS_ASSUME_NONNULL_END

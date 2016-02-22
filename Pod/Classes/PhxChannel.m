@@ -12,6 +12,8 @@
 #import "PhxSocket.h"
 #import "PhxSocket_Private.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface PhxChannel ()
 
 @property (nonatomic, readwrite) ChannelState state;
@@ -25,7 +27,9 @@
 
 @implementation PhxChannel
 
-- (id)initWithSocket:(PhxSocket *)socket topic:(NSString *)topic params:(NSDictionary *)params {
+- (instancetype)initWithSocket:(PhxSocket *)socket
+                         topic:(NSString *)topic
+                        params:(nullable NSDictionary *)params {
     self = [super init];
     if (self) {
         self.state = ChannelClosed;
@@ -131,7 +135,7 @@
     return [NSString stringWithFormat:@"chan_reply_%@", ref];
 }
 
-- (void)triggerEvent:(NSString*)event message:(id)message ref:(id)ref {
+- (void)triggerEvent:(NSString*)event message:(id)message ref:(nullable id)ref {
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *binding, NSDictionary *bindings) {
         return [[binding valueForKey:@"event"] isEqualToString:event];
     }];
@@ -147,4 +151,8 @@
     [pushEvent send];
     return pushEvent;
 }
+
 @end
+
+NS_ASSUME_NONNULL_END
+

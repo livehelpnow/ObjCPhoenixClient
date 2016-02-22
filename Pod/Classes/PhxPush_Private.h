@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface PhxPush()
 
-@property (nonatomic, retain) NSDictionary *payload;
+@property (nonatomic) NSDictionary *payload;
 
 @end
+
+NS_ASSUME_NONNULL_END

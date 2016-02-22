@@ -11,8 +11,7 @@
 
 @implementation NSDictionary (QueryString)
 
-+ (NSDictionary *)dictionaryWithQueryString:(NSString *)queryString
-{
++ (NSDictionary *)dictionaryWithQueryString:(NSString *)queryString {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     NSArray *pairs = [queryString componentsSeparatedByString:@"&"];
     
@@ -26,11 +25,13 @@
             NSString *decodedKey = [key URLDecodedString];
             NSString *decodedValue = [value URLDecodedString];
             
-            if (![key isEqualToString:decodedKey])
+            if (![key isEqualToString:decodedKey]) {
                 key = decodedKey;
+            }
             
-            if (![value isEqualToString:decodedValue])
+            if (![value isEqualToString:decodedValue]) {
                 value = decodedValue;
+            }
             
             [dictionary setObject:value forKey:key];
         }
@@ -39,8 +40,7 @@
     return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
-- (NSString *)queryStringValue
-{
+- (NSString *)queryStringValue {
     NSMutableArray *pairs = [NSMutableArray array];
     for (NSString *key in [self keyEnumerator])
     {
