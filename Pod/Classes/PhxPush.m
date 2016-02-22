@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSDictionary *payload;
 
 @property (nullable, nonatomic, copy) After afterHook;
-@property int afterInterval;
+@property (nonatomic) NSTimeInterval afterInterval;
 @property (nullable, nonatomic) NSTimer *afterTimer;
 
 @property (nonatomic) NSMutableArray *recHooks;
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (PhxPush*)after:(int)ms callback:(After)callback {
+- (PhxPush*)after:(NSTimeInterval)ms callback:(After)callback {
     if (self.afterHook) {
         // ERROR
     }

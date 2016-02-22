@@ -21,7 +21,7 @@ static NSTimeInterval kReconnectInterval = 5;
 
 @property (nullable, nonatomic) SRWebSocket *socket;
 @property (nonatomic) NSURL *URL;
-@property (nonatomic) int heartbeatInterval;
+@property (nonatomic) NSTimeInterval heartbeatInterval;
 
 @property (nonatomic) NSMutableArray *channels;
 @property (nonatomic) NSOperationQueue *queue;
@@ -47,7 +47,7 @@ static NSTimeInterval kReconnectInterval = 5;
     return [self initWithURL:url heartbeatInterval:0];
 }
 
-- (instancetype)initWithURL:(NSURL*)url heartbeatInterval:(int)interval {
+- (instancetype)initWithURL:(NSURL*)url heartbeatInterval:(NSTimeInterval)interval {
     self = [super init];
     if (self) {
         self.URL = url;

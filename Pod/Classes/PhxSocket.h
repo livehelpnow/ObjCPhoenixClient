@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL reconnectOnError;
 
 - (instancetype)initWithURL:(NSURL*)url;
-- (instancetype)initWithURL:(NSURL*)url heartbeatInterval:(int)interval;
+- (instancetype)initWithURL:(NSURL*)url heartbeatInterval:(NSTimeInterval)interval;
 
 - (void)connect;
 - (void)connectWithParams:(nullable NSDictionary*)params;
