@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "CADD452DA44BF6FB92BE421609755AA0B0272379",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "CADD452DA44BF6FB92BE421609755AA0B0272379" : 0,
+    "199C7AE3B07D8A440AD065D13101EE9D7E799F10" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "934898A3-4DCF-4E03-B853-DB9C7D3B77AE",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "CADD452DA44BF6FB92BE421609755AA0B0272379" : "ObjCPhoenixClient\/",
+    "199C7AE3B07D8A440AD065D13101EE9D7E799F10" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "ChannelDemo",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Example\/ChannelDemo\/ChannelDemo.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/source.xing.com\/ios\/XNGMessenger.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "199C7AE3B07D8A440AD065D13101EE9D7E799F10"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/xing\/ObjCPhoenixClient.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "CADD452DA44BF6FB92BE421609755AA0B0272379"
+    }
+  ]
+}

@@ -13,39 +13,41 @@
 #import "PhxChannel_Private.h"
 #import "NSDictionary+QueryString.h"
 
-static NSTimeInterval reconnectInterval = 5;
+NS_ASSUME_NONNULL_BEGIN
+
+static NSTimeInterval kReconnectInterval = 5;
 
 @interface PhxSocket () <SRWebSocketDelegate>
 
-@property (nonatomic, retain) SRWebSocket *socket;
-@property (nonatomic, retain) NSURL *URL;
-@property (nonatomic, assign) int heartbeatInterval;
+@property (nullable, nonatomic) SRWebSocket *socket;
+@property (nonatomic, strong) NSURL *URL;
+@property (nonatomic) NSTimeInterval heartbeatInterval;
 
-@property (nonatomic, retain) NSMutableArray *channels;
+@property (nonatomic, strong) NSMutableArray *channels;
 @property (nonatomic, strong) NSOperationQueue *queue;
 
-@property (nonatomic, retain) NSTimer *sendBufferTimer;
-@property (nonatomic, retain) NSTimer *reconnectTimer;
-@property (nonatomic, retain) NSTimer *heartbeatTimer;
+@property (nonatomic, strong) NSTimer *sendBufferTimer;
+@property (nullable, nonatomic, strong) NSTimer *reconnectTimer;
+@property (nullable, nonatomic, strong) NSTimer *heartbeatTimer;
 
-@property (nonatomic, retain) NSMutableArray *openCallbacks;
-@property (nonatomic, retain) NSMutableArray *closeCallbacks;
-@property (nonatomic, retain) NSMutableArray *errorCallbacks;
-@property (nonatomic, retain) NSMutableArray *messageCallbacks;
+@property (nonatomic, strong) NSMutableArray *openCallbacks;
+@property (nonatomic, strong) NSMutableArray *closeCallbacks;
+@property (nonatomic, strong) NSMutableArray *errorCallbacks;
+@property (nonatomic, strong) NSMutableArray *messageCallbacks;
 
-@property (nonatomic, retain) NSDictionary *params;
+@property (nullable, nonatomic) NSDictionary *params;
 
-@property (readwrite) int ref;
+@property (atomic) NSUInteger ref;
 
 @end
 
 @implementation PhxSocket
 
-- (id)initWithURL:(NSURL*)url {
+- (instancetype)initWithURL:(NSURL*)url {
     return [self initWithURL:url heartbeatInterval:0];
 }
 
-- (id)initWithURL:(NSURL*)url heartbeatInterval:(int)interval {
+- (instancetype)initWithURL:(NSURL*)url heartbeatInterval:(NSTimeInterval)interval {
     self = [super init];
     if (self) {
         self.URL = url;
@@ -70,7 +72,7 @@ static NSTimeInterval reconnectInterval = 5;
     [self connectWithParams:nil];
 }
 
-- (void)connectWithParams:(NSDictionary*)params {
+- (void)connectWithParams:(nullable NSDictionary*)params {
     NSURL *url;
     self.params = params;
     if (self.params != nil) {
@@ -211,7 +213,11 @@ static NSTimeInterval reconnectInterval = 5;
     
     if (self.reconnectOnError) {
         [self discardReconnectTimer];
-        self.reconnectTimer = [NSTimer scheduledTimerWithTimeInterval:reconnectInterval target:self selector:@selector(reconnect) userInfo:nil repeats:YES];
+        self.reconnectTimer = [NSTimer scheduledTimerWithTimeInterval:kReconnectInterval
+                                                               target:self
+                                                             selector:@selector(reconnect)
+                                                             userInfo:nil
+                                                              repeats:YES];
     }
     [self discardHeartbeatTimer];
     
@@ -277,11 +283,9 @@ static NSTimeInterval reconnectInterval = 5;
 }
 
 - (NSString*)makeRef {
-    // TODO: Catch integer overflow
-    int newRef = self.ref + 1;
-    return [NSString stringWithFormat:@"%i", newRef];
+    self.ref += 1;
+    return [NSString stringWithFormat:@"%zd", self.ref];
 }
-
 
 #pragma mark - SRWebSocket Delegate
 
@@ -302,3 +306,5 @@ static NSTimeInterval reconnectInterval = 5;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
