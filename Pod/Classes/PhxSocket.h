@@ -26,11 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<PhxSocketDelegate> delegate;
 @property (nonatomic) BOOL reconnectOnError;
 
-- (instancetype)initWithURL:(NSURL*)url;
-- (instancetype)initWithURL:(NSURL*)url heartbeatInterval:(NSTimeInterval)interval;
+- (instancetype)initWithURL:(NSURL *)url;
+- (instancetype)initWithURL:(NSURL *)url heartbeatInterval:(NSTimeInterval)interval;
 
 - (void)connect;
-- (void)connectWithParams:(nullable NSDictionary*)params;
+- (void)connectWithParams:(nullable NSDictionary *)params;
 - (void)disconnect;
 - (void)reconnect;
 
@@ -42,11 +42,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)isConnected;
 
-- (NSString*)makeRef;
+- (NSString *)makeRef;
 
 - (SocketState)socketState;
 
-- (void)push:(NSDictionary*)data;
+- (void)push:(NSDictionary *)data;
 
 @end
 

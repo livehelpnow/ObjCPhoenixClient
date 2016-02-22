@@ -42,28 +42,28 @@ NS_ASSUME_NONNULL_BEGIN
         self.socket = socket;
         self.bindings = [NSMutableArray new];
         [self.socket addChannel:self];
-        
+
         self.joinedOnce = NO;
         self.joinPush = [[PhxPush alloc] initWithChannel:self event:@"phx_join" payload:self.params];
-        
+
         __weak typeof(self) weakSelf = self;
         [self.joinPush onReceive:@"ok" callback:^(id message) {
             weakSelf.state = ChannelJoined;
         }];
-        
+
         [self.socket onOpen:^{
             [weakSelf rejoin];
         }];
-        
+
         [self onClose:^(id event) {
             weakSelf.state = ChannelClosed;
             [weakSelf.socket removeChannel:weakSelf];
         }];
-        
+
         [self onError:^(id error) {
             weakSelf.state = ChannelErrored;
         }];
-        
+
         [self onEvent:@"phx_reply" callback:^(id message, id ref) {
             [weakSelf triggerEvent:[weakSelf replyEventName:ref] message:message ref:ref];
         }];
@@ -71,13 +71,13 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (PhxPush*)join {
+- (PhxPush *)join {
     if (self.joinedOnce) {
         // ERROR
     } else {
         self.joinedOnce = YES;
     }
-    
+
     [self sendJoin];
     return self.joinPush;
 }
@@ -113,12 +113,12 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)onEvent:(NSString*)event callback:(OnReceive)callback {
-    [self.bindings addObject:@{@"event":event, @"callback":callback}];
+- (void)onEvent:(NSString *)event callback:(OnReceive)callback {
+    [self.bindings addObject:@{@"event": event, @"callback": callback}];
 }
 
-- (void)offEvent:(NSString*)event {
-    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *binding, NSDictionary *bindings) {
+- (void)offEvent:(NSString *)event {
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL (NSDictionary *binding, NSDictionary *bindings) {
         return [[binding valueForKey:@"event"] isEqualToString:event];
     }];
     NSArray *bindings = [self.bindings filteredArrayUsingPredicate:predicate];
@@ -127,16 +127,16 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (BOOL)isMemberOfTopic:(NSString*)topic {
+- (BOOL)isMemberOfTopic:(NSString *)topic {
     return [self.topic isEqualToString:topic];
 }
 
-- (NSString*)replyEventName:(NSString*)ref {
+- (NSString *)replyEventName:(NSString *)ref {
     return [NSString stringWithFormat:@"chan_reply_%@", ref];
 }
 
-- (void)triggerEvent:(NSString*)event message:(id)message ref:(nullable id)ref {
-    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *binding, NSDictionary *bindings) {
+- (void)triggerEvent:(NSString *)event message:(id)message ref:(nullable id)ref {
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL (NSDictionary *binding, NSDictionary *bindings) {
         return [[binding valueForKey:@"event"] isEqualToString:event];
     }];
     NSArray *bindings = [self.bindings filteredArrayUsingPredicate:predicate];
@@ -146,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (PhxPush*)pushEvent:(NSString*)event payload:(NSDictionary*)payload {
+- (PhxPush *)pushEvent:(NSString *)event payload:(NSDictionary *)payload {
     PhxPush *pushEvent = [[PhxPush alloc] initWithChannel:self event:event payload:payload];
     [pushEvent send];
     return pushEvent;

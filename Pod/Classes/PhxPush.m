@@ -32,9 +32,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation PhxPush
 
-- (instancetype)initWithChannel:(PhxChannel*)channel
-                          event:(NSString*)event
-                        payload:(NSDictionary*)payload {
+- (instancetype)initWithChannel:(PhxChannel *)channel
+                          event:(NSString *)event
+                        payload:(NSDictionary *)payload {
     self = [super init];
     if (self) {
         self.channel = channel;
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.refEvent = [self.channel replyEventName:ref];
     self.receivedResp = nil;
     self.sent = NO;
-    
+
     __weak typeof(self) weakSelf = self;
     [self.channel onEvent:self.refEvent callback:^(id message, id ref) {
         weakSelf.receivedResp = message;
@@ -63,10 +63,10 @@ NS_ASSUME_NONNULL_BEGIN
     }];
     [self startAfter];
     self.sent = YES;
-    [self.channel.socket push:@{@"topic":self.channel.topic, @"event": self.event, @"payload":self.payload, @"ref": ref}];
+    [self.channel.socket push:@{@"topic": self.channel.topic, @"event": self.event, @"payload": self.payload, @"ref": ref}];
 }
 
-- (PhxPush*)onReceive:(NSString *)status callback:(OnMessage)callback {
+- (PhxPush *)onReceive:(NSString *)status callback:(OnMessage)callback {
     if (self.receivedResp && [[self.receivedResp valueForKey:@"status"] isEqualToString:status]) {
         callback(self.receivedResp);
     }
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (PhxPush*)after:(NSTimeInterval)ms callback:(After)callback {
+- (PhxPush *)after:(NSTimeInterval)ms callback:(After)callback {
     if (self.afterHook) {
         // ERROR
     }
@@ -108,15 +108,15 @@ NS_ASSUME_NONNULL_BEGIN
     self.afterTimer = [NSTimer scheduledTimerWithTimeInterval:self.afterInterval target:self selector:@selector(afterTimerFire:) userInfo:callback repeats:NO];
 }
 
-- (void)afterTimerFire:(NSTimer*)timer {
+- (void)afterTimerFire:(NSTimer *)timer {
     if ([timer userInfo]) {
         After callback = [timer userInfo];
         callback();
     }
 }
 
-- (void)matchReceive:(NSDictionary*)payload {
-    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *recHook, NSDictionary *bindings) {
+- (void)matchReceive:(NSDictionary *)payload {
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL (NSDictionary *recHook, NSDictionary *bindings) {
         return [[recHook valueForKey:@"status"] isEqualToString:[payload valueForKey:@"status"]];
     }];
     NSArray *recHooks = [self.recHooks filteredArrayUsingPredicate:predicate];

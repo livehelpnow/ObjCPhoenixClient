@@ -15,8 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PhxSocket ()
 
-- (void)addChannel:(PhxChannel*)channel;
-- (void)removeChannel:(PhxChannel*)channel;
+- (void)addChannel:(PhxChannel *)channel;
+- (void)removeChannel:(PhxChannel *)channel;
 
 @end
 
