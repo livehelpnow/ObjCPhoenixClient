@@ -16,16 +16,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PhxPush ()
 
 @property (nonatomic, weak) PhxChannel *channel;
-@property (nonatomic) NSString *event;
-@property (nonatomic) NSString *refEvent;
-@property (nonatomic) NSDictionary *payload;
+@property (nonatomic, strong) NSString *event;
+@property (nonatomic, strong) NSString *refEvent;
+@property (nonatomic, strong) NSDictionary *payload;
 
 @property (nullable, nonatomic, copy) After afterHook;
 @property (nonatomic) NSTimeInterval afterInterval;
-@property (nullable, nonatomic) NSTimer *afterTimer;
+@property (nullable, nonatomic, strong) NSTimer *afterTimer;
 
-@property (nonatomic) NSMutableArray *recHooks;
-@property (nullable, nonatomic) id receivedResp;
+@property (nonatomic, strong) NSMutableArray *recHooks;
+@property (nullable, nonatomic, strong) id receivedResp;
 @property (atomic) BOOL sent;
 
 @end
@@ -74,12 +74,16 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (PhxPush*)after:(NSTimeInterval)ms callback:(After)callback {
+- (PhxPush*)after:(NSTimeInterval)timeInterval callback:(After)callback {
     if (self.afterHook) {
         // ERROR
     }
-    self.afterTimer = [NSTimer scheduledTimerWithTimeInterval:ms target:self selector:@selector(afterTimerFire:) userInfo:nil repeats:NO];
-    self.afterInterval = ms;
+    self.afterTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
+                                                       target:self
+                                                     selector:@selector(afterTimerFire:)
+                                                     userInfo:nil
+                                                      repeats:NO];
+    self.afterInterval = timeInterval;
     self.afterHook = callback;
     return self;
 }

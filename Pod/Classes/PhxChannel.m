@@ -16,12 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PhxChannel ()
 
-@property (nonatomic, readwrite) ChannelState state;
+@property (nonatomic) ChannelState state;
 
-@property (nonatomic, retain) NSMutableArray *bindings;
+@property (nonatomic, strong) NSMutableArray *bindings;
 
-@property (readwrite) BOOL joinedOnce;
-@property (nonatomic, retain) PhxPush *joinPush;
+@property (atomic) BOOL joinedOnce;
+@property (nonatomic, strong) PhxPush *joinPush;
 
 @end
 

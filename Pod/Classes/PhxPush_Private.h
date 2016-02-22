@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PhxPush()
 
-@property (nonatomic) NSDictionary *payload;
+@property (nonatomic, strong) NSDictionary *payload;
 
 @end
 

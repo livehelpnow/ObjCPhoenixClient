@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)send;
 
 - (PhxPush *)onReceive:(NSString *)status callback:(OnMessage)callback;
-- (PhxPush *)after:(NSTimeInterval)ms callback:(After)callback;
+- (PhxPush *)after:(NSTimeInterval)timeInterval callback:(After)callback;
 
 @end
 

@@ -20,20 +20,20 @@ static NSTimeInterval kReconnectInterval = 5;
 @interface PhxSocket () <SRWebSocketDelegate>
 
 @property (nullable, nonatomic) SRWebSocket *socket;
-@property (nonatomic) NSURL *URL;
-@property (nonatomic) NSTimeInterval heartbeatInterval;
+@property (nonatomic, strong) NSURL *URL;
+@property (nonatomic, strong) NSTimeInterval heartbeatInterval;
 
-@property (nonatomic) NSMutableArray *channels;
-@property (nonatomic) NSOperationQueue *queue;
+@property (nonatomic, strong) NSMutableArray *channels;
+@property (nonatomic, strong) NSOperationQueue *queue;
 
-@property (nonatomic) NSTimer *sendBufferTimer;
-@property (nullable, nonatomic) NSTimer *reconnectTimer;
-@property (nullable, nonatomic) NSTimer *heartbeatTimer;
+@property (nonatomic, strong) NSTimer *sendBufferTimer;
+@property (nullable, nonatomic, strong) NSTimer *reconnectTimer;
+@property (nullable, nonatomic, strong) NSTimer *heartbeatTimer;
 
-@property (nonatomic) NSMutableArray *openCallbacks;
-@property (nonatomic) NSMutableArray *closeCallbacks;
-@property (nonatomic) NSMutableArray *errorCallbacks;
-@property (nonatomic) NSMutableArray *messageCallbacks;
+@property (nonatomic, strong) NSMutableArray *openCallbacks;
+@property (nonatomic, strong) NSMutableArray *closeCallbacks;
+@property (nonatomic, strong) NSMutableArray *errorCallbacks;
+@property (nonatomic, strong) NSMutableArray *messageCallbacks;
 
 @property (nullable, nonatomic) NSDictionary *params;
 
