@@ -25,25 +25,25 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PhxChannel : NSObject
 
 @property (nonatomic, weak) id<PhxChannelDelegate> delegate;
-@property (nonatomic, weak) PhxSocket* socket;
+@property (nonatomic, weak) PhxSocket * socket;
 @property (nonatomic, readonly) ChannelState state;
-@property (nonatomic) NSString* topic;
+@property (nonatomic) NSString * topic;
 @property (nonatomic) NSDictionary *params;
 
-- (instancetype)initWithSocket:(PhxSocket*)socket
-                         topic:(NSString*)topic
-                        params:(nullable NSDictionary*)params;
+- (instancetype)initWithSocket:(PhxSocket *)socket
+                         topic:(NSString *)topic
+                        params:(nullable NSDictionary *)params;
 
-- (PhxPush*)join;
+- (PhxPush *)join;
 - (void)leave;
 
-- (void)onEvent:(NSString*)event callback:(OnReceive)callback;
-- (void)offEvent:(NSString*)event;
+- (void)onEvent:(NSString *)event callback:(OnReceive)callback;
+- (void)offEvent:(NSString *)event;
 
 - (void)onClose:(OnClose)callback;
 - (void)onError:(OnError)callback;
 
-- (PhxPush*)pushEvent:(NSString*)event payload:(NSDictionary*)payload;
+- (PhxPush *)pushEvent:(NSString *)event payload:(NSDictionary *)payload;
 
 @end
 
