@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "PhxTypes.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @class PhxSocket;
 @class PhxChannel;
@@ -26,12 +27,12 @@
 @property (nonatomic, weak) id<PhxChannelDelegate> delegate;
 @property (nonatomic, weak) PhxSocket* socket;
 @property (nonatomic, readonly) ChannelState state;
-@property (nonatomic, retain) NSString* topic;
-@property (nonatomic, retain) NSDictionary *params;
+@property (nonatomic, strong) NSString* topic;
+@property (nonatomic, strong) NSDictionary *params;
 
-- (id)initWithSocket:(PhxSocket*)socket
-               topic:(NSString*)topic
-              params:(NSDictionary*)params;
+- (instancetype)initWithSocket:(PhxSocket*)socket
+                         topic:(NSString*)topic
+                        params:(nullable NSDictionary*)params;
 
 - (PhxPush*)join;
 - (void)leave;
@@ -45,3 +46,5 @@
 - (PhxPush*)pushEvent:(NSString*)event payload:(NSDictionary*)payload;
 
 @end
+
+NS_ASSUME_NONNULL_END
