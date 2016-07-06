@@ -279,7 +279,14 @@ static NSTimeInterval reconnectInterval = 5;
 - (NSString*)makeRef {
     // TODO: Catch integer overflow
     int newRef = self.ref + 1;
-    return [NSString stringWithFormat:@"%i", newRef];
+
+    if (newRef == self.ref) {
+        self.ref = 0;
+    } else {
+        self.ref = newRef;
+    }
+
+    return [NSString stringWithFormat:@"%i", self.ref];
 }
 
 
